@@ -65,23 +65,21 @@ var
 //  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
 // track mouse
-$('#canvas').on('touchmove', function (evt) {
 
-
-  var mouseEvent = new MouseEvent("mousemove", {
-      offsetX: touch.clientX,
-      offsetY: touch.clientY
-    });
-    canvas.dispatchEvent(mouseEvent);
-
-  console.log("x:" + mouse.x + " y:" + mouse.y + " S:"+ ctx.canvas.width + "," + ctx.canvas.height)
-});
 
 $('#canvas').on('mousemove', function (evt) {
   mouse.x = evt.offsetX;
   mouse.y = evt.offsetY;
   console.log("x:" + mouse.x + " y:" + mouse.y + " S:"+ ctx.canvas.width + "," + ctx.canvas.height)
 });
+
+$('#canvas').on('touchmove', function (evt) {
+  mouse.x = evt.touches[0].clientX;
+  mouse.y = evt.touches[0].clientY;
+  console.log("Move x:" + mouse.x + " y:" + mouse.y + " S:"+ ctx.canvas.width + "," + ctx.canvas.height)
+});
+
+
 
 (function animloop(now) {
   var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
@@ -117,6 +115,29 @@ function scaleToFill(img,ctx){
     var y = (canvas.height / 2) - (img.height / 2) * scale;
     ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
 }
+function mouseDown(evt){
+  mouse.x = evt.offsetX;
+  mouse.y = evt.offsetY;
+  console.log("x:" + mouse.x + " y:" + mouse.y + " S:"+ ctx.canvas.width + "," + ctx.canvas.height)
+}
+
+// Get the position of the mouse relative to the canvas
+			function getMousePos(canvasDom, mouseEvent) {
+				var rect = canvasDom.getBoundingClientRect();
+				return {
+					x: mouseEvent.clientX - rect.left,
+					y: mouseEvent.clientY - rect.top
+				};
+			}
+
+			// Get the position of a touch relative to the canvas
+			function getTouchPos(canvasDom, touchEvent) {
+				var rect = canvasDom.getBoundingClientRect();
+				return {
+					x: touchEvent.touches[0].clientX - rect.left,
+					y: touchEvent.touches[0].clientY - rect.top
+				};
+			}
   </script>
   </body>
 </html>
