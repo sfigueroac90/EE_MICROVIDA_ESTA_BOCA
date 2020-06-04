@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      #canvas {
+
+        background: black url(images/esta_boca_bacterias.jpg) center center;
+        background-size: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+
+      }
+
+      body{
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas">
+    <h1>no canvas</h1>
+  </canvas>
+
+      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+          integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+      </script>
+  <script>
+
+  $(window).on('load', function () {
+var
+  ctx = $('#canvas')[0].getContext('2d'),
+  mouse = {x: -100, y: -100};
+
+  var can = $('#canvas')[0];
+
+  ctx.canvas.width = can.offsetWidth;
+  ctx.canvas.height = can.offsetWidth*880/1400;
+  var loaded = false;
+
+
+
+// draw an image inside the cloud
+    var img=new Image();
+    img.src= 'images/esta_boca_sin.jpg'
+    img.onload=function(){
+      scaleToFill(this,ctx)
+    //var pattern = ctx.createPattern(img, 'repeat');
+    //ctx.fillStyle = pattern;
+    //ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    loaded = true;
+
+    // fill black
+
+
+    }
+
+
+    // fill black
+//    ctx.fillStyle = 'black';
+//  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+// track mouse
+$('#canvas').on('mousemove.fog', function (evt) {
+  mouse.x = evt.offsetX;
+  mouse.y = evt.offsetY;
+  console.log("x:" + mouse.x + " y:" + mouse.y + " S:"+ ctx.canvas.width + "," + ctx.canvas.height)
+});
+
+(function animloop(now) {
+  var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                                window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    window.requestAnimationFrame = requestAnimationFrame;
+
+     var
+       frame = window.requestAnimationFrame(animloop),
+       x = mouse.x,
+       y = mouse.y,
+       r = 50,
+       grad = ctx.createRadialGradient(x, y, 0, x, y, r);
+
+  grad.addColorStop(0, "rgba(0, 0, 0, 200)");
+  grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+  if (loaded){
+  ctx.globalCompositeOperation = 'destination-out';
+  //ctx.globalCompositeOperation = 'source-over';
+}
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, 2 * Math.PI, true);
+  ctx.fill();
+}(Date.now()));
+});
+
+function scaleToFill(img,ctx){
+    // get the scale
+    var scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+    // get the top left position of the image
+    var x = (canvas.width / 2) - (img.width / 2) * scale;
+    var y = (canvas.height / 2) - (img.height / 2) * scale;
+    ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+}
+  </script>
+  </body>
+</html>
