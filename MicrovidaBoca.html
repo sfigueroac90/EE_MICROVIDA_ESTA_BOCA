@@ -65,6 +65,12 @@ var
 //  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
 // track mouse
+$('#canvas').on('touchmove', function (evt) {
+  mouse.x = evt.offsetX;
+  mouse.y = evt.offsetY;
+  console.log("x:" + mouse.x + " y:" + mouse.y + " S:"+ ctx.canvas.width + "," + ctx.canvas.height)
+});
+
 $('#canvas').on('mousemove', function (evt) {
   mouse.x = evt.offsetX;
   mouse.y = evt.offsetY;
