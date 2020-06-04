@@ -6,7 +6,7 @@
     <style media="screen">
       #canvas {
 
-        background: black url(images/esta_boca_bacterias.jpg) center center;
+        background: white url(images/esta_boca_bacterias.jpg) center center;
         background-size: 100%;
         width: 100%;
         padding: 0;
@@ -73,12 +73,31 @@ $('#canvas').on('mousemove', function (evt) {
   console.log("x:" + mouse.x + " y:" + mouse.y + " S:"+ ctx.canvas.width + "," + ctx.canvas.height)
 });
 
+
 $('#canvas').on('touchmove', function (evt) {
   mouse.x = evt.touches[0].clientX;
   mouse.y = evt.touches[0].clientY;
   console.log("Move x:" + mouse.x + " y:" + mouse.y + " S:"+ ctx.canvas.width + "," + ctx.canvas.height)
 });
 
+
+
+// Prevent scrolling when touching the canvas
+			document.body.addEventListener("touchstart", function (e) {
+				if (e.target == canvas) {
+					e.preventDefault();
+				}
+			}, { passive: false});
+			document.body.addEventListener("touchend", function (e) {
+				if (e.target == canvas) {
+					e.preventDefault();
+				}
+			}, { passive: false});
+			document.body.addEventListener("touchmove", function (e) {
+				if (e.target == canvas) {
+					e.preventDefault();
+				}
+			}, { passive: false});
 
 
 (function animloop(now) {
@@ -90,7 +109,7 @@ $('#canvas').on('touchmove', function (evt) {
        frame = window.requestAnimationFrame(animloop),
        x = mouse.x,
        y = mouse.y,
-       r = 50,
+       r = ctx.canvas.width/20,
        grad = ctx.createRadialGradient(x, y, 0, x, y, r);
 
   grad.addColorStop(0, "rgba(0, 0, 0, 200)");
