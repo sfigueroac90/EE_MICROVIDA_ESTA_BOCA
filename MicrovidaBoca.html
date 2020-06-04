@@ -66,8 +66,14 @@ var
 
 // track mouse
 $('#canvas').on('touchmove', function (evt) {
-  mouse.x = evt.offsetX;
-  mouse.y = evt.offsetY;
+
+
+  var mouseEvent = new MouseEvent("mousemove", {
+      offsetX: touch.clientX,
+      offsetY: touch.clientY
+    });
+    canvas.dispatchEvent(mouseEvent);
+
   console.log("x:" + mouse.x + " y:" + mouse.y + " S:"+ ctx.canvas.width + "," + ctx.canvas.height)
 });
 
